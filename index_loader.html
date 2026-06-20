@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Manual...</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-align: center; padding: 40px; }
+        p { color: #666; }
+    </style>
+</head>
+<body>
+    <p>マニュアルを読み込み中...</p>
+    <script>
+        async function loadAndRender() {
+            try {
+                let htmlContent = '';
+                const chunks = ['aa', 'ab', 'ac', 'ad', 'ae', 'af'];
+                for (const chunk of chunks) {
+                    const response = await fetch(`index_chunk_${chunk}`);
+                    if (!response.ok) throw new Error(`Failed to load chunk ${chunk}`);
+                    htmlContent += await response.text();
+                }
+                document.open();
+                document.write(htmlContent);
+                document.close();
+            } catch (error) {
+                document.body.innerHTML = '<p style="color: red;">エラー: ' + error.message + '</p>';
+            }
+        }
+        loadAndRender();
+    </script>
+</body>
+</html>
