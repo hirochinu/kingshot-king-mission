@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        async function loadPage() {
+            try {
+                let html = '';
+                for (const chunk of ['page_aa', 'page_ab', 'page_ac']) {
+                    const response = await fetch(chunk);
+                    if (!response.ok) throw new Error(`Failed to load ${chunk}`);
+                    html += await response.text();
+                }
+                document.open();
+                document.write(html);
+                document.close();
+            } catch (e) {
+                document.body.innerHTML = '<p style="color:red;">Error: ' + e.message + '</p>';
+            }
+        }
+        loadPage();
+    </script>
+</body>
+</html>
